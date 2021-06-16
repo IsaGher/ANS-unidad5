@@ -1,6 +1,5 @@
 import sympy as sym
 import pandas as pd
-from sympy.series.formal import rational_algorithm
 
 class Taylor:
     #inicializa datos necesarios, funcion, valores de x,y iniciales, valor de x a llegar, valor de cuantos intervalos y el orden de la derivada
