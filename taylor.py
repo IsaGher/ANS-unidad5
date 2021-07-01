@@ -56,23 +56,14 @@ class Taylor:
 
                     t ={"tn":tn,"yn":yn}
                     tabla = pd.DataFrame(t)
-                    html = tabla.to_html()
-                    salida = {"Tabla":html,"Resultado":yn[n],"metodo":"Taylor"}
-                    return salida
+                    print("Taylor\nResultado",yn[n],"\n")
+                    return tabla
                 else:
                     error = "El valor de intervalo tiene que ser un entero"
-                    salida = {"Error:":error}
-                    return salida
+                    return error
             else:
                     error = "El valor de orden tiene que ser un entero y de dos en adelante"
-                    salida = {"Error:":error}
-                    return salida
+                    return error
         else:
             error = "Datos introducidos de manera erronea"
-            salida = {"Error:":error}
-            return salida
-
-        
-
-
-
+            return error

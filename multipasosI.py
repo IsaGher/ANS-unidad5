@@ -43,85 +43,89 @@ class MultiPasos:
                     yn = [yo]
                     yi = ["---"]
                     #aplicacion del metodo,  tn es para x, yn es para y, yi son los valores para el refinamiento del metodo
-                    for i in range(0,n):
+                    for i in range(0,n-1):
                         temp = yn[i]+(h*MultiPasos.evalF(tn[i],yn[i],funcion))
                         yi.append(temp)
                         aux = tn[i]+h
                         tn.append(aux)
                         temp = yn[i]+h*((MultiPasos.evalF(tn[i],yn[i],funcion)+MultiPasos.evalF(tn[i+1],yi[i+1],funcion))/2)
                         yn.append(temp)
+                    print("Multipasos\nMetodo inicial: Euler Modificado")
                 #metodo de runge-kutta de cuarto orden
                 elif indiceI==2:
                     tn = [xo]
                     yn = [yo]
                     #aplicacion del metodo,  tn es para x, yn es para y, k1 k2 k3 son las constantes
-                    for i in range(0,n):
+                    for i in range(0,n-1):
                         k1 = MultiPasos.evalF(tn[i],yn[i],funcion)
                         k2 = MultiPasos.evalF((tn[i]+h/2),(yn[i]+k1*(h/2)),funcion)
                         k3 = MultiPasos.evalF((tn[i]+h/2),(yn[i]+k2*(h/2)),funcion)
                         k4 = MultiPasos.evalF((tn[i]+h),(yn[i]+h*k3),funcion)
                         yn.append(yn[i]+(h/6)*(k1+2*k2+2*k3+k4))
                         tn.append(tn[i]+h)
+                    print("Multipasos\nMetodo inicial: Runge-Kutta de cuarto orden")
                 #se evalua en algun metodo predictor de Adams Bashforth
                 #metodo de dos pasos
                 if indiceP==1:
-                    n = len(tn)-1
+                    n = len(tn)
                     fi = list()
                     for i in range(0,n):
                         fi.append(MultiPasos.evalF(tn[i],yn[i],funcion))
-                    y2 = yn[n]+(h/2)*(3*MultiPasos.evalF(tn[n],yn[n],funcion)-MultiPasos.evalF(tn[n-1],yn[n-1],funcion))
+                    y2 = yn[n-1]+(h/2)*(3*fi[n-1]-fi[n-2])
                     tn.append(tn[n-1]+h)
                     fi.append(MultiPasos.evalF(tn[n],y2,funcion))
+                    yn.append(y2)
+                    print("Metodo predictor: Adams Bashforth de dos pasos")
                 #metodo de tres pasos
                 elif indiceP==2:
-                    n = len(tn)-1
+                    n = len(tn)
                     fi = list()
                     for i in range(0,n):
                         fi.append(MultiPasos.evalF(tn[i],yn[i],funcion))
-                    y3 = yn[n]+(h/12)*(23*MultiPasos.evalF(tn[n],yn[n],funcion)-16*MultiPasos.evalF(tn[n-1],yn[n-1],funcion)+5*MultiPasos.evalF(tn[n-2],yn[n-2],funcion))
+                    y3 = yn[n-1]+(h/12)*(23*fi[n-1]-16*fi[n-2]+5*fi[n-3])
                     tn.append(tn[n-1]+h)
                     fi.append(MultiPasos.evalF(tn[n],y3,funcion))
+                    yn.append(y3)
+                    print("Metodo predictor: Adams Bashforth de tres pasos")
                 #metodo de cuatro pasos
                 elif indiceP==3:
-                    n = len(tn)-1
+                    n = len(tn)
                     fi = list()
                     for i in range(0,n):
                         fi.append(MultiPasos.evalF(tn[i],yn[i],funcion))
-                    y4 = yn[n]+(h/24)*(55*MultiPasos.evalF(tn[n],yn[n],funcion)-59*MultiPasos.evalF(tn[n-1],yn[n-1],funcion)+37*MultiPasos.evalF(tn[n-2],yn[n-2],funcion)-9*MultiPasos.evalF(tn[n-3],yn[n-3],funcion))
+                    y4 = yn[n-1]+(h/24)*(55*fi[n-1]-59*fi[n-2]+37*fi[n-3]-9*fi[n-4])
                     tn.append(tn[n-1]+h)
                     fi.append(MultiPasos.evalF(tn[n],y4,funcion))
+                    yn.append(y4)
+                    print("Metodo predictor: Adams Bashforth de cuatro pasos")
                 #se evalua en algun metodo corrector de Adams Moulton
                 #de un paso
                 if indiceC==1:
                     i = len(yn)-1
-                    n = len(fi)-2
-                    y = yn[i]+(h/2)*(fi[n+1]+fi[n])
+                    n = len(fi)-1
+                    y = yn[i-1]+(h/2)*(fi[n]+fi[n-1])
+                    print("Metodo corrector: Adams Moulton de un paso")
                 #de tres pasos
                 if indiceC==2:
                     i = len(yn)-1
-                    n = len(fi)-2
-                    y = yn[i]+(h/24)*(9*fi[n+1]+19*fi[n]-5*fi[n-1]+fi[n-2])
+                    n = len(fi)-1
+                    y = yn[i-1]+(h/24)*(9*fi[n]+19*fi[n-1]-5*fi[n-2]+fi[n-3])
+                    print("Metodo corrector: Adams Moulton de tres pasos")
                 #de cuatro pasos
                 elif indiceC==3:
                     i = len(yn)-1
-                    n = len(fi)-2
-                    y = yn[i]+(h/720)*(251*fi[n+1]+646*fi[n]-254*fi[n-1]+106*fi[n-2]-19*fi[n-3])
+                    n = len(fi)-1
+                    y = yn[i]+(h/720)*(251*fi[n]+646*fi[n-1]-254*fi[n-2]+106*fi[n-3]-19*fi[n-4])
+                    print("Metodo corrector: Adams Moulton de cuatro pasos")
         
-                k = len(yn)-1
-                predictor = yn[k-1]
-                j = len(tn)-1
-                tn.pop(j)
                 t = {"xi":tn,"yi":yn,"fi":fi}
                 tabla = pd.DataFrame(t)
-                html = tabla.to_html()
-                salida = {"Tabla":html,"Valor metodo predictor":predictor,"Valor metodo corrector":yn[k],"metodo":"multipasos"}
-                return salida
+                predictor = fi[n]
+                print("Valor metodo predictor",predictor,"\nValor metodo corrector",y)
+                return tabla
             else:
                 error = "El valor de nivel tiene que ser un entero"
-                salida = {"Error:":error}
-                return salida
+                return error
         else:
             error = "Datos introducidos de manera erronea"
-            salida = {"Error:":error}
-            return salida
-
+            return error

@@ -41,17 +41,14 @@ class Euler:
     
                 t ={"tn":tn,"yn":yn}
                 tabla = pd.DataFrame(t)
-                html = tabla.to_html()
-                salida = {"Tabla":html,"Resultado":yn[n],"metodo":"Euler hacia adelante"}
-                return salida
+                print("Euler hacia adelante\nResultado ",yn[n],"\n")
+                return tabla
             else:
                 error = "El valor de intervalo tiene que ser un entero"
-                salida = {"Error:":error}
-                return salida
+                return error
         else:
             error = "Datos introducidos de manera erronea"
-            salida = {"Error:":error}
-            return salida
+            return error
     #metodo de euler hacia atras
     def eulerAtras(self):
         f = self.funcion
@@ -76,19 +73,16 @@ class Euler:
                     temp = yn[i]+(h*Euler.evalF(tn[i+1],yi[i+1],funcion))
                     yn.append(temp)
                 
-                t ={"tn":tn,"yi":yi,"yn":yn}
+                t = {"tn":tn,"yi":yi,"yn":yn}
                 tabla = pd.DataFrame(t)
-                html = tabla.to_html()
-                salida = {"Tabla":html,"Resultado":yn[n],"metodo":"Euler hacia atras"}
-                return salida
+                print("Euler hacia adelante\nResultado ",yn[n],"\n")
+                return tabla
             else:
                 error = "El valor de intervalo tiene que ser un entero"
-                salida = {"Error:":error}
-                return salida
+                return error
         else:
             error = "Datos introducidos de manera erronea"
-            salida = {"Error:":error}
-            return salida
+            return error
     #metodo de euler centrada
     def eulerCentrada(self):
         f = self.funcion
@@ -112,17 +106,14 @@ class Euler:
     
                 t ={"tn":tn,"yn":yn}
                 tabla = pd.DataFrame(t)
-                html = tabla.to_html()
-                salida = {"Tabla":html,"Resultado":yn[n],"metodo":"Euler centrado"}
-                return salida
+                print("Euler hacia adelante\nResultado ",yn[n],"\n")
+                return tabla
             else:
                 error = "El valor de intervalo tiene que ser un entero"
-                salida = {"Error:":error}
-                return salida
+                return error
         else:
             error = "Datos introducidos de manera erronea"
-            salida = {"Error:":error}
-            return salida
+            return error
     #metodo de euler modificado
     def eulerModificado(self):
         f = self.funcion
@@ -147,16 +138,12 @@ class Euler:
                     temp = yn[i]+h*((Euler.evalF(tn[i],yn[i],funcion)+Euler.evalF(tn[i+1],yi[i+1],funcion))/2)
                     yn.append(temp)
     
-                t ={"tn":tn,"yn":yn}
-                tabla = pd.DataFrame(t)
-                html = tabla.to_html()
-                salida = {"Tabla":html,"Resultado":yn[n],"metodo":"Euler modificado"}
-                return salida
+                tabla = {"tn":tn,"yn":yn}
+                print("Euler hacia adelante\nResultado ",yn[n],"\n")
+                return tabla
             else:
                 error = "El valor de intervalo tiene que ser un entero"
-                salida = {"Error:":error}
-                return salida
+                return error
         else:
             error = "Datos introducidos de manera erronea"
-            salida = {"Error:":error}
-            return salida
+            return error
